@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Serializer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import tech.ada.exemplos.salao.beleza.client.payload.request.RealizarPagamentoFinanceiro;
 
@@ -14,9 +13,10 @@ import java.util.Objects;
 
 @Configuration
 @Slf4j
+@RequiredArgsConstructor
 public class PagamentoFornecedorSerializer implements Serializer<RealizarPagamentoFinanceiro> {
-    @Autowired
-    private ObjectMapper objectMapper;
+
+    private final ObjectMapper objectMapper;
 
 
     @Override
@@ -32,5 +32,9 @@ public class PagamentoFornecedorSerializer implements Serializer<RealizarPagamen
             throw new RuntimeException(e);
         }
         return new byte[0];
+    }
+
+    public PagamentoFornecedorSerializer(){
+        this.objectMapper = new ObjectMapper();
     }
 }
