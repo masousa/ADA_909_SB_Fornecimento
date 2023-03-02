@@ -30,7 +30,19 @@ spring:
       hibernate:
         jdbc:
           batch_size: 50
-    
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: passw123
+    cache:
+      connection:
+        mode: CONNECTION
+      channel:
+        size: 50
+        checkout-timeout: 10000
+
+
 application:
   async:
     corePoolSize: 20
@@ -70,3 +82,6 @@ logging:
 business:
   financeiro:
     url: ${VARIAVEL_URL:http://localhost:9080/pagamento/fornecedor}
+    message:
+      queue:
+        pagamento_fornecedor: financeiro_pagamento_fornecedor
