@@ -16,6 +16,7 @@ public class PagamentoFornecedorFinanceiroProducer {
     private final KafkaTemplate<String, RealizarPagamentoFinanceiro> kafkaTemplate;
 
     public void send(RealizarPagamentoFinanceiro realizarPagamentoFinanceiro){
+        log.info("Mensagem enviada pelo kafka {}", realizarPagamentoFinanceiro);
         kafkaTemplate.send(topicName,realizarPagamentoFinanceiro);
     }
 }
