@@ -30,6 +30,15 @@ spring:
       hibernate:
         jdbc:
           batch_size: 50
+
+  kafka:
+    producer:
+      bootstrap-servers: 127.0.0.1:29092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      #      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: tech.ada.exemplos.salao.beleza.config.PagamentoFornecedorSerializer
+      group-id: group_id
+    
   rabbitmq:
     host: localhost
     port: 5672
@@ -41,7 +50,6 @@ spring:
       channel:
         size: 50
         checkout-timeout: 10000
-
 
 application:
   async:
@@ -82,6 +90,8 @@ logging:
 business:
   financeiro:
     url: ${VARIAVEL_URL:http://localhost:9080/pagamento/fornecedor}
+    kafka:
+      out: pagamento_fornecedor-topic
     message:
       queue:
         pagamento_fornecedor: financeiro_pagamento_fornecedor

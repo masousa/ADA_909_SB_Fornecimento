@@ -10,6 +10,7 @@ import tech.ada.exemplos.salao.beleza.entity.Fornecedor;
 import tech.ada.exemplos.salao.beleza.entity.ItemPedido;
 import tech.ada.exemplos.salao.beleza.entity.Pedido;
 import tech.ada.exemplos.salao.beleza.entity.Produto;
+import tech.ada.exemplos.salao.beleza.jms.out.PagamentoFornecedorFinanceiroProducer;
 import tech.ada.exemplos.salao.beleza.payloads.PedidoRequest;
 import org.springframework.stereotype.Service;
 import tech.ada.exemplos.salao.beleza.queue.out.PagarFornecedorMessageSender;
@@ -26,6 +27,7 @@ public class ReceberPedidosService {
 
     private final CreatePedidoService createPedidoService;
 
+    private final PagamentoFornecedorFinanceiroProducer pagamentoFornecedorFinanceiroProducer;
     private final PagarFornecedorMessageSender pagarFornecedorMessageSender;
 
     public void execute(PedidoRequest pedidoRequest){
@@ -61,7 +63,8 @@ public class ReceberPedidosService {
         realizarPagamentoFinanceiro.setItems(List.of(itemRequest));
 
         //financeiroClient.realizarPagamento(realizarPagamentoFinanceiro);
-        pagarFornecedorMessageSender.send(realizarPagamentoFinanceiro);
+        //pagarFornecedorMessageSender.send(realizarPagamentoFinanceiro);
+        pagamentoFornecedorFinanceiroProducer.send(realizarPagamentoFinanceiro);
     }
 
     private Pedido savePedido(PedidoRequest pedidoRequest, Produto produto, Fornecedor fornecedor) {
